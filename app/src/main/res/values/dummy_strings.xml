@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Title">A long title to test the title TextView what would happen.</string>
+    <string name="Author">Also a long author TextView, just to make sure.</string>
+</resources>
