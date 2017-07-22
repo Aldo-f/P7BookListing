@@ -70,7 +70,7 @@ public class BookActivity extends AppCompatActivity
             }
         });
 
-        ConnectivityManager connMgr = (ConnectivityManager)
+        final ConnectivityManager connMgr = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
 
         final NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -84,6 +84,7 @@ public class BookActivity extends AppCompatActivity
             @Override
             public boolean onQueryTextChange(String newText) {
                 //check network
+                 NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
                 if (networkInfo != null && networkInfo.isConnected()) {
                     LoaderManager loaderManager = getLoaderManager();
                     loaderManager.restartLoader(BOOK_LOADER_ID, null, BookActivity.this);
@@ -96,7 +97,6 @@ public class BookActivity extends AppCompatActivity
                 //make query
                 mQuery = searchView.getQuery().toString();
                 mQuery = mQuery.replace(" ", "+");
-                getLoaderManager().restartLoader(BOOK_LOADER_ID, null, BookActivity.this);
                 return true;
             }
         });
