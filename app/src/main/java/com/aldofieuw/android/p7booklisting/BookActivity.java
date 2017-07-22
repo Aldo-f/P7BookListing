@@ -88,7 +88,6 @@ public class BookActivity extends AppCompatActivity
                 if (networkInfo != null && networkInfo.isConnected()) {
                     LoaderManager loaderManager = getLoaderManager();
                     loaderManager.restartLoader(BOOK_LOADER_ID, null, BookActivity.this);
-                    mAdapter.clear();
                 } else {
                     View loadingIndicator = findViewById(R.id.loading_indicator);
                     loadingIndicator.setVisibility(View.GONE);
