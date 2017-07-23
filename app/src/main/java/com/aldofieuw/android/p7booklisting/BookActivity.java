@@ -22,23 +22,17 @@ public class BookActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<List<Book>> {
 
     private static final String REQUEST_URL = "https://www.googleapis.com/books/v1/volumes?maxResults=30&q=";
-
-
     private static final int BOOK_LOADER_ID = 1;
-
     private BookAdapter mAdapter;
-
     private TextView mEmptyStateTextView;
-
     private SearchView searchView;
     private String mQuery;
-    private ListView bookListView;
-
     private boolean start;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ListView bookListView;
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book);
 
@@ -84,14 +78,14 @@ public class BookActivity extends AppCompatActivity
             @Override
             public boolean onQueryTextChange(String newText) {
                 //check network
-                 NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+                NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
                 if (networkInfo != null && networkInfo.isConnected()) {
                     LoaderManager loaderManager = getLoaderManager();
                     loaderManager.restartLoader(BOOK_LOADER_ID, null, BookActivity.this);
                 } else {
+                    mAdapter.clear();
                     View loadingIndicator = findViewById(R.id.loading_indicator);
                     loadingIndicator.setVisibility(View.GONE);
-                    mAdapter.clear();
                     mEmptyStateTextView.setText(R.string.no_internet_connection);
                 }
                 //make query
@@ -116,7 +110,7 @@ public class BookActivity extends AppCompatActivity
     @Override
     public Loader<List<Book>> onCreateLoader(int id, Bundle bundle) {
         String requestUrl = "";
-        if (mQuery != null && mQuery != "") {
+        if (mQuery != null && mQuery.equals("")) {
             requestUrl = REQUEST_URL + mQuery;
             start = false;
         }
@@ -128,7 +122,7 @@ public class BookActivity extends AppCompatActivity
         View loadingIndicator = findViewById(R.id.loading_indicator);
         loadingIndicator.setVisibility(View.GONE);
 
-// The return_no_book value overrides the no_search_query :(
+        // The return_no_book value overrides the no_search_query :(
         mEmptyStateTextView.setText(R.string.returns_no_book);
 
         if (start) {
